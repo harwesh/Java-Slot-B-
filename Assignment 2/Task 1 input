@@ -1,0 +1,81 @@
+
+public class TicketBenchmark {
+
+    static volatile int result;
+
+    static int usingString(int tickets, int fields) {
+        int total = 0;
+
+        for (int t = 0; t < tickets; t++) {
+            String ticket = "";
+
+            for (int f = 0; f < fields; f++) {
+                ticket = ticket + "Field" + f;
+            }
+
+            total += ticket.length();
+        }
+        return total;
+    }
+
+    static int usingBuilder(int tickets, int fields) {
+        int total = 0;
+
+        for (int t = 0; t < tickets; t++) {
+            StringBuilder ticket = new StringBuilder();
+
+            for (int f = 0; f < fields; f++) {
+                ticket.append("Field").append(f);
+            }
+
+            total += ticket.length();
+        }
+        return total;
+    }
+
+    static int usingBuffer(int tickets, int fields) {
+        int total = 0;
+
+        for (int t = 0; t < tickets; t++) {
+            StringBuffer ticket = new StringBuffer();
+
+            for (int f = 0; f < fields; f++) {
+                ticket.append("Field").append(f);
+            }
+
+            total += ticket.length();
+        }
+        return total;
+    }
+
+    static void test(int tickets, int fields) {
+        System.out.println("\nTickets: " + tickets +
+                           " Fields: " + fields);
+
+        long start, end;
+
+        start = System.nanoTime();
+        result = usingString(tickets, fields);
+        end = System.nanoTime();
+        System.out.println("String: " +
+            (end - start) / 1000000.0 + " ms");
+
+        start = System.nanoTime();
+        result = usingBuilder(tickets, fields);
+        end = System.nanoTime();
+        System.out.println("StringBuilder: " +
+            (end - start) / 1000000.0 + " ms");
+
+        start = System.nanoTime();
+        result = usingBuffer(tickets, fields);
+        end = System.nanoTime();
+        System.out.println("StringBuffer: " +
+            (end - start) / 1000000.0 + " ms");
+    }
+
+    public static void main(String[] args) {
+        test(1, 5);
+        test(10000, 50);
+        test(5000, 100);
+    }
+}
