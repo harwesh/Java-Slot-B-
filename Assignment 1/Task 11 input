@@ -1,0 +1,32 @@
+
+class Parking {
+    double calculateFee(String type, int hours) {
+        if (hours < 0)
+            return -1;
+
+        if (type.equals("TwoWheeler"))
+            return hours * 10;
+
+        else if (type.equals("Car"))
+            return hours * 30;
+
+        else
+            return -1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Parking p = new Parking();
+
+        System.out.println("TwoWheeler Fee: Rs " +
+            p.calculateFee("TwoWheeler", 2));
+
+        System.out.println("Car Fee: Rs " +
+            p.calculateFee("Car", 3));
+
+        System.out.println("Total Collection: Rs " +
+            (p.calculateFee("TwoWheeler", 2) +
+             p.calculateFee("Car", 3)));
+    }
+}
