@@ -1,0 +1,83 @@
+
+public class DesignChallenge {
+
+    // Original solution: repeated String concatenation
+    static String original(int n) {
+        String result = "";
+
+        for (int i = 0; i < n; i++) {
+            result = result + "A";
+        }
+
+        return result;
+    }
+
+    // Redesigned solution: StringBuilder
+    static String redesigned(int n) {
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < n; i++) {
+            result.append("A");
+        }
+
+        return result.toString();
+    }
+
+    static double measureOriginal(int n, int repeats) {
+        long start = System.nanoTime();
+
+        for (int i = 0; i < repeats; i++) {
+            original(n);
+        }
+
+        long end = System.nanoTime();
+        return (end - start) / 1_000_000.0 / repeats;
+    }
+
+    static double measureRedesigned(int n, int repeats) {
+        long start = System.nanoTime();
+
+        for (int i = 0; i < repeats; i++) {
+            redesigned(n);
+        }
+
+        long end = System.nanoTime();
+        return (end - start) / 1_000_000.0 / repeats;
+    }
+
+    public static void main(String[] args) {
+
+        int[] sizes = {100, 1000, 5000, 10000};
+        int repeats = 5;
+
+        // Warm-up
+        for (int i = 0; i < 2; i++) {
+            original(1000);
+            redesigned(1000);
+        }
+
+        System.out.println("String Concatenation vs StringBuilder");
+        System.out.println("Average time in milliseconds");
+        System.out.println("--------------------------------------");
+
+        for (int n : sizes) {
+
+            String oldResult = original(n);
+            String newResult = redesigned(n);
+
+            if (!oldResult.equals(newResult)) {
+                System.out.println("Results do not match!");
+                return;
+            }
+
+            double oldTime = measureOriginal(n, repeats);
+            double newTime = measureRedesigned(n, repeats);
+
+            System.out.println("Size: " + n);
+            System.out.printf("Original: %.4f ms%n", oldTime);
+            System.out.printf("Redesigned: %.4f ms%n", newTime);
+            System.out.println("Results match: Yes");
+            System.out.println();
+        }
+    }
+}
