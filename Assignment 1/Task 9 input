@@ -1,0 +1,36 @@
+
+abstract class Vehicle {
+    abstract double calculateFee();
+}
+
+interface Chargeable {
+    double chargingFee();
+}
+
+class Car extends Vehicle {
+    double calculateFee() {
+        return 60;
+    }
+}
+
+class ElectricCar extends Vehicle implements Chargeable {
+    double calculateFee() {
+        return 60;
+    }
+
+    public double chargingFee() {
+        return 120;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Vehicle v = new Car();
+        System.out.println("Parking Fee: Rs " +
+            v.calculateFee());
+
+        ElectricCar e = new ElectricCar();
+        System.out.println("Charging Fee: Rs " +
+            e.chargingFee());
+    }
+}
