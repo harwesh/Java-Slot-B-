@@ -1,0 +1,22 @@
+Tickets: 1 Fields: 5
+String: [measured time] ms
+StringBuilder: [measured time] ms
+StringBuffer: [measured time] ms
+
+Tickets: 10000 Fields: 50
+String: [measured time] ms
+StringBuilder: [measured time] ms
+StringBuffer: [measured time] ms
+
+Tickets: 5000 Fields: 100
+String: [measured time] ms
+StringBuilder: [measured time] ms
+StringBuffer: [measured time] ms
+
+Conclusion
+String is immutable and creates intermediate objects during concatenation. StringBuilder is faster for repeated text operations because it is mutable. StringBuffer is synchronized and suitable when shared mutable access needs thread safety.
+Time complexity:
+Method Complexity
+String O(n²)
+StringBuilder O(n) amortized
+StringBuffer O(n) amortized
