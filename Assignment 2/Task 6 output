@@ -1,0 +1,13 @@
+Meena(S1) Kumar(S1) Lata(S2) Ravi(S3) John(S3) Asha(S5)
+
+
+. Explanation for your report
+Why is a normal Queue insufficient?
+A normal FIFO Queue serves patients in arrival order only. It cannot automatically serve the most severe patient first.
+How does PriorityQueue work?
+Severity 1 has the highest priority.
+Severity 5 has the lowest priority.
+If two patients have equal severity, the arrival counter serves the earlier patient first.
+poll() removes and returns the highest-priority patient.
+Why use an arrival counter?
+The counter gives every patient a unique arrival number. It preserves arrival order when severity levels are equal.
