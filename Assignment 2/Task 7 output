@@ -1,0 +1,5 @@
+Create StringBuilder
+Repeat n times:
+    Append character "A"
+Convert builder into String
+Return result
