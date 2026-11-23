@@ -1,0 +1,17 @@
+
+public class Main {
+    public static void main(String[] args) {
+        int[] slotsPerFloor = {3, 2};
+        String[][] slots = new String[2][];
+
+        for (int i = 0; i < 2; i++) {
+            slots[i] = new String[slotsPerFloor[i]];
+        }
+
+        slots[0][0] = "TN01AB1111";
+
+        System.out.println("Floors: " + slots.length);
+        System.out.println("Vehicle: " + slots[0][0]);
+        System.out.println("Total Slots: 5");
+    }
+}
