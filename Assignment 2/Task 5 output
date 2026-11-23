@@ -1,0 +1,10 @@
+[Eagles(9,6), Bisons(9,4), Panthers(9,4), Cobras(6,1)]
+
+
+Create sorted copy O(n) space
+Display ranking O(n)
+Alternative concept: Comparable
+Comparable<Team> can be implemented inside the Team class using compareTo(). It defines the team's natural ranking order.
+A Comparator is more flexible because different ranking rules can be created without changing the Team class.
+Conclusion
+The generic Leaderboard<T> can work with different object types. Comparator provides flexible ranking based on multiple fields, while sorting a copy preserves the original list.
