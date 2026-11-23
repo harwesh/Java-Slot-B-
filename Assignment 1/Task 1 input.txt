@@ -1,0 +1,27 @@
+
+class Vehicle {
+    String vehicleNo;
+    String vehicleType;
+    String userType;
+
+    Vehicle(String no, String type, String user) {
+        vehicleNo = no;
+        vehicleType = type;
+        userType = user;
+    }
+
+    void display() {
+        System.out.println("Vehicle: " + vehicleNo);
+        System.out.println("Type: " + vehicleType);
+        System.out.println("User: " + userType);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Vehicle v = new Vehicle(
+            "TN01AB1111", "Car", "Student"
+        );
+        v.display();
+    }
+}
