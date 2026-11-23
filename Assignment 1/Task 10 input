@@ -1,0 +1,31 @@
+
+class Vehicle {
+    private String vehicleNo;
+    private int duration;
+
+    public void setVehicleNo(String no) {
+        vehicleNo = no;
+    }
+
+    public void setDuration(int d) {
+        if (d >= 0)
+            duration = d;
+        else
+            System.out.println("Invalid Duration");
+    }
+
+    public void display() {
+        System.out.println("Vehicle: " + vehicleNo);
+        System.out.println("Duration: " + duration);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Vehicle v = new Vehicle();
+
+        v.setVehicleNo("TN01AB1111");
+        v.setDuration(2);
+        v.display();
+    }
+}
