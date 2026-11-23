@@ -1,0 +1,41 @@
+
+abstract class Vehicle {
+    abstract double calculateFee(int hours);
+}
+
+class EBike extends Vehicle {
+    double calculateFee(int hours) {
+        return 20;
+    }
+}
+
+class DeliveryVan extends Vehicle {
+    double calculateFee(int hours) {
+        return hours * 60;
+    }
+}
+
+class VisitorPass {
+    double passFee = 100;
+
+    void display() {
+        System.out.println("Visitor Pass Fee: Rs " +
+            passFee);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Vehicle e = new EBike();
+        Vehicle d = new DeliveryVan();
+
+        System.out.println("E-Bike Fee: Rs " +
+            e.calculateFee(2));
+
+        System.out.println("Delivery Van Fee: Rs " +
+            d.calculateFee(2));
+
+        VisitorPass v = new VisitorPass();
+        v.display();
+    }
+}
