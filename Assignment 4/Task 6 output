@@ -1,0 +1,39 @@
+Output 1 – Successful registration
+
+Student Name: Harwesh
+Register No: 1911260127
+Event: Dance
+
+Registration successful
+
+Output 2 – Invalid registration
+
+Student Name:
+Register No:
+Event: Music
+
+Please fill all fields
+
+Output 3 – Duplicate registration
+
+Student Name: Harwesh
+Register No: 1911260127
+Event: Dance
+
+Registration failed or duplicate entry
+
+Output 4 – JTable
+
+-----------------------------------------------
+Name       Register Number       Event
+-----------------------------------------------
+Harwesh    1911260127             Dance
+Sriharan   1911260036             Music
+Abinesh    1911260128             Drama
+-----------------------------------------------
+
+Output 5 – Export
+
+Data exported successfully
+
+File: registrations.csv
