@@ -1,0 +1,44 @@
+import java.io.IOException;
+
+class ExamException extends Exception {
+    ExamException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+}
+
+class SubmissionStorageException extends ExamException {
+    SubmissionStorageException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+}
+
+class Storage {
+    void save(String file, long size)
+            throws SubmissionStorageException {
+        try {
+            if (size > 500)
+                throw new IOException("Disk quota exceeded");
+
+            System.out.println("Saved " + file);
+
+        } catch (IOException e) {
+            throw new SubmissionStorageException(
+                "Could not store " + file, e);
+        }
+    }
+}
+
+public class StorageDemo {
+    public static void main(String[] args) {
+        Storage storage = new Storage();
+
+        try {
+            storage.save("answer01.pdf", 120);
+            storage.save("answer02.pdf", 800);
+
+        } catch (ExamException e) {
+            System.out.println("Error: " + e.getMessage());
+            System.out.println("Cause: " + e.getCause().getMessage());
+        }
+    }
+}
