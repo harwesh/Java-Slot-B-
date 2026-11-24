@@ -1,0 +1,39 @@
+import java.io.*;
+
+class Resident implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    String name;
+    String regNo;
+    transient String password;
+    transient Object connection;
+
+    Resident(String name, String regNo) {
+        this.name = name;
+        this.regNo = regNo;
+    }
+}
+
+public class SerializationDemo {
+    public static void main(String[] args) throws Exception {
+        Resident r = new Resident("Arun", "192311001");
+
+        ObjectOutputStream out = new ObjectOutputStream(
+                new FileOutputStream("hostel.dat"));
+
+        out.writeObject(r);
+        out.close();
+
+        System.out.println("Object serialized successfully");
+
+        ObjectInputStream in = new ObjectInputStream(
+                new FileInputStream("hostel.dat"));
+
+        Resident obj = (Resident) in.readObject();
+        in.close();
+
+        System.out.println("Name: " + obj.name);
+        System.out.println("Register Number: " + obj.regNo);
+        System.out.println("Password: " + obj.password);
+    }
+}
