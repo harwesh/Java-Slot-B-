@@ -1,0 +1,72 @@
+import java.awt.*;
+import java.awt.event.*;
+
+class FeeService {
+    public String pay(String regNo, String amount) {
+        if (regNo.isEmpty() || amount.isEmpty())
+            return "All fields are required";
+
+        try {
+            double a = Double.parseDouble(amount);
+
+            if (a <= 0)
+                return "Invalid amount";
+
+            return "Payment successful: Rs." + a;
+
+        } catch (NumberFormatException e) {
+            return "Enter a valid amount";
+        }
+    }
+}
+
+public class FeeWindow extends Frame {
+    TextField regNo = new TextField(15);
+    TextField amount = new TextField(15);
+    Label result = new Label("Enter fee details");
+    FeeService service = new FeeService();
+
+    public FeeWindow() {
+        setLayout(new FlowLayout());
+
+        Button pay = new Button("Pay");
+        Button clear = new Button("Clear");
+        Button receipt = new Button("Receipt");
+
+        add(new Label("Register Number"));
+        add(regNo);
+        add(new Label("Amount"));
+        add(amount);
+        add(pay);
+        add(clear);
+        add(receipt);
+        add(result);
+
+        pay.addActionListener(e -> {
+            result.setText(service.pay(
+                regNo.getText(), amount.getText()));
+        });
+
+        clear.addActionListener(e -> {
+            regNo.setText("");
+            amount.setText("");
+            result.setText("Cleared");
+        });
+
+        receipt.addActionListener(e ->
+            result.setText("Receipt requested"));
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+
+        setSize(350, 250);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new FeeWindow();
+    }
+}
