@@ -1,0 +1,8 @@
+Output
+
+Database: MySQL
+Driver: 9.x
+Tables:
+bus_pass
+student
+users
