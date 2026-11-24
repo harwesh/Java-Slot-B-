@@ -1,11 +1,21 @@
+Output
+
 Unique students: 2
 
 Changing a field used in hashCode() after insertion can make an object difficult to find or remove from the set.
+
 Complexity analysis
+
 Operation Average time
 Add student to HashSet O(1)
 Check duplicate O(1)
 Store n unique students O(n) space
 TreeSet alternative O(log n) per scan
-Conclusion: Overriding both equals() and hashCode() correctly ensures that HashSet can identify duplicate student records.
-Important: The assignment asks you to run the program once before completing TODO 1 and record the output, then run it again after adding hashCode(). The output before the fix can vary because hash values are not guaranteed to match for equal objects.
+
+Conclusion: 
+
+Overriding both equals() and hashCode() correctly ensures that HashSet can identify duplicate student records.
+
+Important: 
+
+The assignment asks you to run the program once before completing TODO 1 and record the output, then run it again after adding hashCode(). The output before the fix can vary because hash values are not guaranteed to match for equal objects.
