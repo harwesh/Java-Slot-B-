@@ -1,11 +1,207 @@
-CREATE DATABASE campus;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.sql.*;
+import java.io.*;
 
-USE campus;
+public class EventRegistration extends JFrame {
 
-CREATE TABLE registrations (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    student_name VARCHAR(100),
-    reg_no VARCHAR(30),
-    event_name VARCHAR(100),
-    UNIQUE(reg_no, event_name)
-);
+    JTextField name = new JTextField(12);
+    JTextField regNo = new JTextField(12);
+
+    JComboBox<String> event = new JComboBox<>(
+        new String[]{"Dance", "Music", "Drama", "Sports"}
+    );
+
+    JComboBox<String> filter = new JComboBox<>(
+        new String[]{"All", "Dance", "Music", "Drama", "Sports"}
+    );
+
+    DefaultTableModel model = new DefaultTableModel(
+        new String[]{"Name", "Register Number", "Event"}, 0
+    );
+
+    JTable table = new JTable(model);
+
+    Connection con;
+
+    public EventRegistration() {
+        setTitle("Campus Event Registration");
+        setSize(700, 450);
+        setLayout(new BorderLayout());
+
+        try {
+            con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/campus",
+                "root",
+                "your_password"
+            );
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                this, "Database connection failed: " + e.getMessage()
+            );
+        }
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("File");
+        JMenuItem export = new JMenuItem("Export");
+        menu.add(export);
+        menuBar.add(menu);
+        setJMenuBar(menuBar);
+
+        JPanel form = new JPanel(new FlowLayout());
+
+        form.add(new JLabel("Student Name"));
+        form.add(name);
+
+        form.add(new JLabel("Register No"));
+        form.add(regNo);
+
+        form.add(new JLabel("Event"));
+        form.add(event);
+
+        JButton register = new JButton("Register");
+        form.add(register);
+
+        JPanel filterPanel = new JPanel();
+        filterPanel.add(new JLabel("Filter Event"));
+        filterPanel.add(filter);
+
+        add(form, BorderLayout.NORTH);
+        add(new JScrollPane(table), BorderLayout.CENTER);
+        add(filterPanel, BorderLayout.SOUTH);
+
+        register.addActionListener(e -> registerStudent());
+
+        filter.addActionListener(e -> loadData());
+
+        export.addActionListener(e -> exportData());
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                try {
+                    if (con != null)
+                        con.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        loadData();
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    void registerStudent() {
+        String student = name.getText().trim();
+        String reg = regNo.getText().trim();
+        String selectedEvent = (String) event.getSelectedItem();
+
+        if (student.isEmpty() || reg.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                this, "Please fill all fields");
+            return;
+        }
+
+        new SwingWorker<Boolean, Void>() {
+            protected Boolean doInBackground() throws Exception {
+                String sql =
+                    "INSERT INTO registrations VALUES(NULL,?,?,?)";
+
+                PreparedStatement ps = con.prepareStatement(sql);
+
+                ps.setString(1, student);
+                ps.setString(2, reg);
+                ps.setString(3, selectedEvent);
+
+                ps.executeUpdate();
+                return true;
+            }
+
+            protected void done() {
+                try {
+                    get();
+                    JOptionPane.showMessageDialog(
+                        EventRegistration.this,
+                        "Registration successful");
+
+                    name.setText("");
+                    regNo.setText("");
+                    loadData();
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(
+                        EventRegistration.this,
+                        "Registration failed or duplicate entry");
+                }
+            }
+        }.execute();
+    }
+
+    void loadData() {
+        if (con == null)
+            return;
+
+        new SwingWorker<Void, Void>() {
+            protected Void doInBackground() throws Exception {
+                model.setRowCount(0);
+
+                String selected = (String) filter.getSelectedItem();
+
+                String sql = "SELECT student_name, reg_no, event_name "
+                           + "FROM registrations";
+
+                if (!"All".equals(selected))
+                    sql += " WHERE event_name=?";
+
+                PreparedStatement ps = con.prepareStatement(sql);
+
+                if (!"All".equals(selected))
+                    ps.setString(1, selected);
+
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3)
+                    });
+                }
+
+                rs.close();
+                ps.close();
+
+                return null;
+            }
+        }.execute();
+    }
+
+    void exportData() {
+        try {
+            FileWriter fw = new FileWriter("registrations.csv");
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    fw.write(model.getValueAt(i, j).toString());
+                    fw.write(",");
+                }
+                fw.write("\n");
+            }
+
+            fw.close();
+
+            JOptionPane.showMessageDialog(
+                this, "Data exported successfully");
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(
+                this, "Export failed");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(EventRegistration::new);
+    }
+}
