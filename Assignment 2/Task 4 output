@@ -1,3 +1,5 @@
+Output
+
 Medicine count: 1000
 HashMap lookup: ... ns
 TreeMap lookup: ... ns
@@ -14,11 +16,18 @@ Medicine count: 5000
 Medicine count: 10000
 ...
 
+
 Operation Complexity
+
 Lookup O(log n)
 Insertion O(n)
 Code-order report O(n)
 Space O(n)
+
 Conclusion
+
 HashMap is suitable for fast medicine lookups. TreeMap is suitable for reports in medicine-code order, while LinkedHashMap is suitable for reports in insertion order. The best choice depends on the required operations.
-Note: Run the program on your computer and record your actual timings. For stronger experimental evidence, repeat each measurement several times and calculate the average.
+
+Note: 
+
+Run the program on your computer and record your actual timings. For stronger experimental evidence, repeat each measurement several times and calculate the average.
