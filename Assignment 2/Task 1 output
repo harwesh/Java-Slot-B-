@@ -1,12 +1,18 @@
+Output 1
+
 Tickets: 1 Fields: 5
 String: [measured time] ms
 StringBuilder: [measured time] ms
 StringBuffer: [measured time] ms
 
+Output 2
+
 Tickets: 10000 Fields: 50
 String: [measured time] ms
 StringBuilder: [measured time] ms
 StringBuffer: [measured time] ms
+
+Output 3
 
 Tickets: 5000 Fields: 100
 String: [measured time] ms
