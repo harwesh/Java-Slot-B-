@@ -1,0 +1,64 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class LibrarySearch extends Frame {
+    TextField search = new TextField(20);
+    Choice category = new Choice();
+    TextArea results = new TextArea();
+    Label status = new Label("Ready");
+
+    public LibrarySearch() {
+        setTitle("Campus Library Search");
+        setLayout(new BorderLayout(5, 5));
+
+        Panel top = new Panel(new BorderLayout());
+        Label title = new Label("LIBRARY SEARCH");
+        top.add(title, BorderLayout.NORTH);
+
+        Panel searchPanel = new Panel(new FlowLayout());
+        category.add("All");
+        category.add("Science");
+        category.add("Technology");
+        category.add("Mathematics");
+
+        Button searchButton = new Button("Search");
+        searchPanel.add(search);
+        searchPanel.add(category);
+        searchPanel.add(searchButton);
+
+        top.add(searchPanel, BorderLayout.CENTER);
+        add(top, BorderLayout.NORTH);
+
+        results.setText("Search results will appear here");
+        add(results, BorderLayout.CENTER);
+
+        Panel bottom = new Panel(new FlowLayout());
+        bottom.add(new Button("Prev"));
+        bottom.add(new Button("Next"));
+        bottom.add(new Button("Reserve"));
+        add(bottom, BorderLayout.SOUTH);
+
+        searchButton.addActionListener(e -> {
+            results.setText("Searching for: " + search.getText()
+                    + "\nCategory: " + category.getSelectedItem());
+            status.setText("Search completed");
+        });
+
+        Panel statusPanel = new Panel(new FlowLayout(FlowLayout.LEFT));
+        statusPanel.add(status);
+        add(statusPanel, BorderLayout.PAGE_END);
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+
+        setSize(600, 400);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new LibrarySearch();
+    }
+}
