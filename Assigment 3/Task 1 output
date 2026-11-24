@@ -1,0 +1,14 @@
+Output 1
+
+Enter account number: 101
+Enter withdrawal amount: 1000
+Withdrawal successful
+Remaining balance: 4000.0
+ATM transaction completed
+
+Output 2
+
+Enter account number: 101
+Enter withdrawal amount: -500
+Invalid amount
+ATM transaction completed
