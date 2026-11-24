@@ -1,0 +1,11 @@
+CREATE DATABASE campus;
+
+USE campus;
+
+CREATE TABLE registrations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_name VARCHAR(100),
+    reg_no VARCHAR(30),
+    event_name VARCHAR(100),
+    UNIQUE(reg_no, event_name)
+);
