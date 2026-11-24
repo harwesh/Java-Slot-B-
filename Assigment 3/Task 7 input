@@ -1,0 +1,84 @@
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.concurrent.*;
+
+class Result {
+    String fileName;
+    boolean success;
+
+    Result(String fileName, boolean success) {
+        this.fileName = fileName;
+        this.success = success;
+    }
+}
+
+class ResultTask implements Callable<Result> {
+    String fileName;
+
+    ResultTask(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Result call() {
+        try {
+            String data = Files.readString(Paths.get(fileName));
+            String[] marks = data.trim().split("\\s+");
+
+            int total = 0;
+
+            for (String mark : marks) {
+                int m = Integer.parseInt(mark);
+
+                if (m < 0 || m > 100)
+                    throw new IllegalArgumentException();
+
+                total += m;
+            }
+
+            return new Result(fileName, true);
+
+        } catch (Exception e) {
+            return new Result(fileName, false);
+        }
+    }
+}
+
+public class SemesterProcessor {
+    public static void main(String[] args)
+            throws InterruptedException {
+
+        ExecutorService executor =
+                Executors.newFixedThreadPool(4);
+
+        List<Future<Result>> futures = new ArrayList<>();
+
+        for (int i = 1; i <= 10000; i++) {
+            futures.add(executor.submit(
+                    new ResultTask("answer" + i + ".txt")));
+        }
+
+        executor.shutdown();
+
+        int success = 0;
+        int failure = 0;
+
+        for (Future<Result> future : futures) {
+            try {
+                Result r = future.get();
+
+                if (r.success)
+                    success++;
+                else
+                    failure++;
+
+            } catch (ExecutionException e) {
+                failure++;
+            }
+        }
+
+        System.out.println("Successful files: " + success);
+        System.out.println("Failed files: " + failure);
+        System.out.println("Total files: " + (success + failure));
+    }
+}
