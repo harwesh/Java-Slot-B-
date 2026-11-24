@@ -1,0 +1,69 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class Appointment extends Frame {
+    TextField patient = new TextField(15);
+    Choice department = new Choice();
+    Choice doctor = new Choice();
+    Choice slot = new Choice();
+    Label result = new Label(" ");
+
+    public Appointment() {
+        setLayout(new FlowLayout());
+
+        department.add("Cardiology");
+        department.add("Neurology");
+        department.add("Orthopaedics");
+
+        doctor.add("Dr. Kumar");
+        doctor.add("Dr. Ravi");
+
+        slot.add("10:00 AM");
+        slot.add("11:00 AM");
+        slot.add("02:00 PM");
+
+        add(new Label("Patient ID"));
+        add(patient);
+        add(new Label("Department"));
+        add(department);
+        add(new Label("Doctor"));
+        add(doctor);
+        add(new Label("Time Slot"));
+        add(slot);
+
+        Button book = new Button("Book");
+        add(book);
+        add(result);
+
+        department.addItemListener(e -> {
+            doctor.removeAll();
+            if (department.getSelectedItem().equals("Cardiology"))
+                doctor.add("Dr. Kumar");
+            else if (department.getSelectedItem().equals("Neurology"))
+                doctor.add("Dr. Ravi");
+            else
+                doctor.add("Dr. Arun");
+        });
+
+        book.addActionListener(e -> {
+            if (patient.getText().isEmpty()) {
+                result.setText("Enter Patient ID");
+            } else {
+                result.setText("Appointment booked successfully");
+            }
+        });
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+
+        setSize(400, 300);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new Appointment();
+    }
+}
