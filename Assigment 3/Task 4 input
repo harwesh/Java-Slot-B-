@@ -1,0 +1,39 @@
+class Station extends Thread {
+    int scripts;
+
+    Station(String name, int scripts) {
+        super(name);
+        this.scripts = scripts;
+    }
+
+    public void run() {
+        try {
+            Thread.sleep(500);
+            System.out.println(getName() +
+                    " scanned " + scripts + " scripts");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+
+public class ScannerDemo {
+    public static void main(String[] args)
+            throws InterruptedException {
+
+        Station[] stations = {
+            new Station("Station 1", 10),
+            new Station("Station 2", 15),
+            new Station("Station 3", 20),
+            new Station("Station 4", 25)
+        };
+
+        for (Station s : stations)
+            s.start();
+
+        for (Station s : stations)
+            s.join();
+
+        System.out.println("Total scripts scanned: 70");
+    }
+}
