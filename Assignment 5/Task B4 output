@@ -1,0 +1,13 @@
+Sample input – passes.csv
+
+P1001,192311001,Arun,12,4500
+P1002,192311002,Divya,7,3800
+P1003,DAMAGED LINE
+
+Output
+
+Invalid record: P1003,DAMAGED LINE
+Valid records: 2
+Failed records: 1
+Migration completed
+
