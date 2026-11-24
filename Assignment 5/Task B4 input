@@ -1,0 +1,70 @@
+import java.io.*;
+import java.sql.*;
+
+public class Migration {
+    public static void main(String[] args) throws Exception {
+
+        Connection con = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/college",
+            "root", "password");
+
+        String sql = "INSERT INTO bus_pass " +
+            "(pass_id, reg_no, name, route_no, amount) " +
+            "VALUES (?, ?, ?, ?, ?)";
+
+        int success = 0;
+        int failed = 0;
+
+        con.setAutoCommit(false);
+
+        try (BufferedReader br =
+                new BufferedReader(new FileReader("passes.csv"));
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] p = line.split(",", -1);
+
+                try {
+                    if (p.length != 5)
+                        throw new IllegalArgumentException();
+
+                    int route = Integer.parseInt(p[3]);
+                    double amount = Double.parseDouble(p[4]);
+
+                    ps.setString(1, p[0]);
+                    ps.setString(2, p[1]);
+                    ps.setString(3, p[2]);
+                    ps.setInt(4, route);
+                    ps.setDouble(5, amount);
+
+                    ps.addBatch();
+                    success++;
+
+                    if (success % 1000 == 0)
+                        ps.executeBatch();
+
+                } catch (Exception e) {
+                    failed++;
+                    System.out.println("Invalid record: " + line);
+                }
+            }
+
+            ps.executeBatch();
+            con.commit();
+
+        } catch (Exception e) {
+            con.rollback();
+            throw e;
+
+        } finally {
+            con.setAutoCommit(true);
+            con.close();
+        }
+
+        System.out.println("Valid records: " + success);
+        System.out.println("Failed records: " + failed);
+        System.out.println("Migration completed");
+    }
+}
