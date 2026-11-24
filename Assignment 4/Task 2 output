@@ -1,0 +1,14 @@
+Output
+
+Patient ID: P101
+Department: Cardiology
+Doctor: Dr. Kumar
+Time Slot: 10:00 AM
+
+Appointment booked successfully
+
+Invalid output
+
+Patient ID: [Empty]
+
+Enter Patient ID
