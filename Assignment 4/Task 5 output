@@ -1,0 +1,21 @@
+Output 1 – Valid amount
+
+INR: 1000
+Currency: USD
+
+Converted Amount: 12.00
+
+Dialog box:
+
+Converted Amount: 12.00
+
+Output 2 – Invalid amount
+
+INR: ABC
+Currency: USD
+
+Invalid amount
+
+Dialog box:
+
+Invalid amount
